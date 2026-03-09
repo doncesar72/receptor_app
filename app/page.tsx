@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useCallback, useMemo, useEffect } from "react"
-import { Sparkles, Search } from "lucide-react"
+import { Sparkles, Search, X } from "lucide-react"
 import { Header } from "@/components/fridge-chef/header"
 import { LoadingScreen } from "@/components/fridge-chef/loading-screen"
 import { RecipeList } from "@/components/fridge-chef/recipe-list"
@@ -296,6 +296,7 @@ export default function РЕЦЕПТОРApp() {
               </section>
 
               {/* Upload zone */}
+              {!hasPhoto ? (
               <div 
                 onClick={() => document.getElementById('photo-input')?.click()}
                 className="flex flex-col items-center justify-center w-full h-48 rounded-2xl border-2 border-dashed border-muted-foreground/30 bg-muted/20 hover:border-muted-foreground/50 hover:bg-muted/30 transition-all duration-200 cursor-pointer"
@@ -309,6 +310,24 @@ export default function РЕЦЕПТОРApp() {
                   </p>
                 </div>
               </div>
+            ) : (
+              <div className="relative w-full h-48 rounded-2xl overflow-hidden">
+                <img 
+                  src={imageDataUrl || ''} 
+                  alt="Uploaded" 
+                  className="w-full h-full object-cover"
+                />
+                <button
+                  onClick={() => {
+                    setHasPhoto(false)
+                    setImageDataUrl('')
+                  }}
+                  className="absolute top-2 right-2 size-8 rounded-full bg-black/50 flex items-center justify-center"
+                >
+                  <X className="size-4 text-white" />
+                </button>
+              </div>
+            )}
               
               <input
                 type="file"
@@ -323,8 +342,6 @@ export default function РЕЦЕПТОРApp() {
                       const dataUrl = ev.target?.result as string
                       setHasPhoto(true)
                       setImageDataUrl(dataUrl)
-                      setIsUploadSheetOpen(false)
-                      handleAnalyze()
                     }
                     reader.readAsDataURL(file)
                   }
