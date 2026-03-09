@@ -85,7 +85,6 @@ export default function РЕЦЕПТОРApp() {
     }
 
     console.log("[РЕЦЕПТОРApp] Starting analysis, sending image to /api/analyze")
-    alert('Запрос отправляется! imageDataUrl length: ' + imageDataUrl.length)
     setAppState("loading")
     setIsAnalyzing(true)
 
@@ -101,7 +100,6 @@ export default function РЕЦЕПТОРApp() {
       })
 
       console.log("[РЕЦЕПТОРApp] /api/analyze response status:", response.status)
-      alert('Ответ получен! Status: ' + response.status)
 
       const json = await response.json()
       console.log("[РЕЦЕПТОРApp] /api/analyze raw JSON:", json)
@@ -339,7 +337,6 @@ export default function РЕЦЕПТОРApp() {
                 onChange={async (e) => {
                   const file = e.target.files?.[0]
                   if (file) {
-                    // Создаем canvas для сжатия
                     const img = new Image()
                     const reader = new FileReader()
                     
@@ -351,10 +348,9 @@ export default function РЕЦЕПТОРApp() {
                       const canvas = document.createElement('canvas')
                       const ctx = canvas.getContext('2d')!
                       
-                      // Максимальный размер 1200px
                       let width = img.width
                       let height = img.height
-                      const maxSize = 1200
+                      const maxSize = 1024
                       
                       if (width > height && width > maxSize) {
                         height = (height * maxSize) / width
@@ -368,11 +364,11 @@ export default function РЕЦЕПТОРApp() {
                       canvas.height = height
                       ctx.drawImage(img, 0, 0, width, height)
                       
-                      // Сжимаем до 0.7 качества
-                      const dataUrl = canvas.toDataURL('image/jpeg', 0.7)
+                      const compressed = canvas.toDataURL('image/jpeg', 0.8)
+                      console.log('Compressed size:', compressed.length)
                       
                       setHasPhoto(true)
-                      setImageDataUrl(dataUrl)
+                      setImageDataUrl(compressed)
                     }
                     
                     reader.readAsDataURL(file)
