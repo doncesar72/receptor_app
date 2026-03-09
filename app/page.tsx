@@ -336,15 +336,45 @@ export default function РЕЦЕПТОРApp() {
                 accept="image/*"
                 id="photo-input"
                 style={{ display: 'none' }}
-                onChange={(e) => {
+                onChange={async (e) => {
                   const file = e.target.files?.[0]
                   if (file) {
+                    // Создаем canvas для сжатия
+                    const img = new Image()
                     const reader = new FileReader()
+                    
                     reader.onload = (ev) => {
-                      const dataUrl = ev.target?.result as string
+                      img.src = ev.target?.result as string
+                    }
+                    
+                    img.onload = () => {
+                      const canvas = document.createElement('canvas')
+                      const ctx = canvas.getContext('2d')!
+                      
+                      // Максимальный размер 1200px
+                      let width = img.width
+                      let height = img.height
+                      const maxSize = 1200
+                      
+                      if (width > height && width > maxSize) {
+                        height = (height * maxSize) / width
+                        width = maxSize
+                      } else if (height > maxSize) {
+                        width = (width * maxSize) / height
+                        height = maxSize
+                      }
+                      
+                      canvas.width = width
+                      canvas.height = height
+                      ctx.drawImage(img, 0, 0, width, height)
+                      
+                      // Сжимаем до 0.7 качества
+                      const dataUrl = canvas.toDataURL('image/jpeg', 0.7)
+                      
                       setHasPhoto(true)
                       setImageDataUrl(dataUrl)
                     }
+                    
                     reader.readAsDataURL(file)
                   }
                 }}
