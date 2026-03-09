@@ -32,14 +32,14 @@ export function PhotoUploadSheet({ isOpen, onClose, onCameraCapture, onGallerySe
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-end justify-center"
+      className="fixed inset-0 z-50 flex items-center justify-center"
       onClick={handleBackdropClick}
     >
       {/* Backdrop */}
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
       
       {/* Sheet */}
-      <div className="relative bg-background rounded-t-3xl shadow-2xl w-full max-w-md animate-in slide-in-from-bottom duration-300">
+      <div className="relative bg-background rounded-3xl shadow-2xl w-full max-w-md mx-4 animate-in fade-in duration-300">
         {/* Handle */}
         <div className="flex justify-center pt-3 pb-2">
           <div className="w-12 h-1.5 bg-muted-foreground/30 rounded-full" />
