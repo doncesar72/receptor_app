@@ -9,27 +9,27 @@ interface OnboardingProps {
 
 const slides = [
   {
-    emoji: "📸",
+    image: "/onboarding/slide1.png",
+    bg: "from-teal-500/80 to-teal-700/80",
     title: "Сфотографируй продукты",
-    description: "Открой холодильник и сделай фото. Мы распознаем всё что есть внутри",
-    bg: "from-teal-400 to-teal-600"
+    description: "Открой холодильник и сделай фото. Мы распознаем всё что есть внутри"
   },
   {
-    emoji: "🤖",
+    image: "/onboarding/slide2.png",
+    bg: "from-teal-500/60 to-emerald-700/60",
     title: "AI подберёт рецепты",
-    description: "За секунды находим лучшие блюда именно из твоих продуктов",
-    bg: "from-teal-500 to-emerald-600"
+    description: "За секунды находим лучшие блюда именно из твоих продуктов"
   },
   {
-    emoji: "🎯",
+    image: "/onboarding/slide3.png",
+    bg: "from-teal-600/70 to-teal-800/70",
     title: "Под твои цели",
-    description: "Халяль, диета, набор массы — рецепты под твой образ жизни",
-    bg: "from-emerald-400 to-teal-500"
+    description: "Халяль, диета, набор массы — рецепты под твой образ жизни"
   }
 ]
 
 export function Onboarding({ onComplete }: OnboardingProps) {
-  const [currentSlide, setCurrentSlide] = useState(0)
+  const [current, setCurrent] = useState(0)
   const [isDone, setIsDone] = useState(false)
   const touchStartX = useRef(0)
   const timerRef = useRef<NodeJS.Timeout>()
@@ -44,30 +44,28 @@ export function Onboarding({ onComplete }: OnboardingProps) {
 
   // Auto-advance timer
   useEffect(() => {
-    if (currentSlide < slides.length - 1) {
-      timerRef.current = setTimeout(() => {
-        nextSlide()
-      }, 4000)
-    }
+    timerRef.current = setTimeout(() => {
+      nextSlide()
+    }, 4000)
 
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current)
       }
     }
-  }, [currentSlide])
+  }, [current])
 
   const nextSlide = () => {
-    if (currentSlide < slides.length - 1) {
-      setCurrentSlide(currentSlide + 1)
+    if (current < 2) {
+      setCurrent(current + 1)
     } else {
       complete()
     }
   }
 
   const prevSlide = () => {
-    if (currentSlide > 0) {
-      setCurrentSlide(currentSlide - 1)
+    if (current > 0) {
+      setCurrent(current - 1)
     }
   }
 
@@ -75,10 +73,6 @@ export function Onboarding({ onComplete }: OnboardingProps) {
     localStorage.setItem('onboarding_complete', 'true')
     setIsDone(true)
     onComplete?.()
-  }
-
-  const skip = () => {
-    complete()
   }
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -104,93 +98,84 @@ export function Onboarding({ onComplete }: OnboardingProps) {
     return null
   }
 
-  const currentSlideData = slides[currentSlide]
-
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
-      {/* Background with gradient */}
-      <div 
-        className={`absolute inset-0 bg-gradient-to-br ${currentSlideData.bg} transition-all duration-700 ease-in-out`}
+    <div className="fixed inset-0 z-50" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+      {/* Фоновая картинка */}
+      <img 
+        src={slides[current].image}
+        className="absolute inset-0 w-full h-full object-cover"
+        alt="Onboarding slide"
       />
       
-      {/* Content */}
-      <div 
-        className="relative h-full flex flex-col justify-between p-8"
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-      >
-        {/* Header with progress */}
-        <div className="flex items-center justify-between pt-12">
-          {/* Progress bars */}
-          <div className="flex gap-2 flex-1">
-            {slides.map((_, index) => (
-              <div
-                key={index}
-                className="flex-1 h-1 bg-white rounded-full overflow-hidden"
-              >
-                <div
-                  className={`h-full bg-white transition-all duration-400 ${
-                    index < currentSlide ? 'w-full' : 
-                    index === currentSlide ? 'w-full animate-[progress_4s_linear_forwards]' : 
-                    'w-0'
-                  }`}
-                />
-              </div>
-            ))}
-          </div>
-          
-          {/* Skip button */}
-          <button
-            onClick={skip}
-            className="text-white text-sm ml-4 opacity-80 hover:opacity-100 transition-opacity"
-          >
-            Пропустить
-          </button>
-        </div>
+      {/* Тёмный градиент поверх картинки снизу */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-        {/* Main content */}
-        <div className="flex-1 flex flex-col items-center justify-center text-center">
-          {/* Emoji with bounce animation */}
-          <div className="text-9xl animate-bounce">
-            {currentSlideData.emoji}
+      {/* Прогресс бары сверху */}
+      <div className="absolute top-12 left-4 right-4 flex gap-1.5 z-10">
+        {slides.map((_, i) => (
+          <div key={i} className="h-1 flex-1 rounded-full bg-white/30 overflow-hidden">
+            <div 
+              className={`h-full rounded-full bg-white transition-all duration-100 ${
+                i < current ? 'w-full' : 
+                i === current ? 'animate-progress' : 'w-0'
+              }`}
+              style={i === current ? {
+                animation: 'progress 4s linear forwards'
+              } : {}}
+            />
           </div>
-          
-          {/* Title */}
-          <h2 className="text-3xl font-bold text-white mt-8 max-w-sm">
-            {currentSlideData.title}
-          </h2>
-          
-          {/* Description */}
-          <p className="text-lg text-white/80 mt-4 max-w-md px-8">
-            {currentSlideData.description}
-          </p>
-        </div>
-
-        {/* Bottom button */}
-        <div className="pb-12">
-          <button
-            onClick={nextSlide}
-            className="w-full mx-8 bg-white text-gray-900 font-semibold py-4 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
-          >
-            {currentSlide === slides.length - 1 ? (
-              <>
-                Начать 🚀
-              </>
-            ) : (
-              <>
-                Далее
-                <ChevronRight className="size-5" />
-              </>
-            )}
-          </button>
-        </div>
+        ))}
       </div>
 
-      {/* Custom styles for progress animation */}
+      {/* Кнопка пропустить */}
+      <button 
+        onClick={complete}
+        className="absolute top-16 right-4 z-10 text-white/80 text-sm font-medium"
+      >
+        Пропустить
+      </button>
+
+      {/* Текст снизу */}
+      <div className="absolute bottom-0 left-0 right-0 p-8 z-10">
+        <h2 className="text-3xl font-bold text-white mb-3">
+          {slides[current].title}
+        </h2>
+        <p className="text-white/80 text-lg mb-8 leading-relaxed">
+          {slides[current].description}
+        </p>
+        
+        {current < 2 ? (
+          <button
+            onClick={nextSlide}
+            className="w-full py-4 bg-white text-teal-600 font-bold text-lg rounded-2xl"
+          >
+            Далее →
+          </button>
+        ) : (
+          <button
+            onClick={complete}
+            className="w-full py-4 bg-white text-teal-600 font-bold text-lg rounded-2xl"
+          >
+            Начать 🚀
+          </button>
+        )}
+      </div>
+
+      {/* Невидимые зоны для тапа влево/вправо */}
+      <div 
+        className="absolute left-0 top-0 w-1/2 h-full z-20"
+        onClick={() => current > 0 && setCurrent(current - 1)}
+      />
+      <div 
+        className="absolute right-0 top-0 w-1/2 h-full z-20"
+        onClick={nextSlide}
+      />
+
+      {/* Custom styles */}
       <style jsx>{`
         @keyframes progress {
-          from { width: 0%; }
-          to { width: 100%; }
+          from { width: 0% }
+          to { width: 100% }
         }
       `}</style>
     </div>
