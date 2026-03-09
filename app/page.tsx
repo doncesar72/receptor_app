@@ -86,22 +86,6 @@ export default function РЕЦЕПТОРApp() {
     setImageDataUrl(dataUrl)
   }, [])
 
-  const handleUploadFromSheet = useCallback((dataUrl: string) => {
-    setHasPhoto(true)
-    setImageDataUrl(dataUrl)
-    setIsUploadSheetOpen(false)
-    handleAnalyze()
-  }, [handleAnalyze])
-
-  const handleFileFromSheet = useCallback((file: File) => {
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      const dataUrl = e.target?.result as string
-      handleUploadFromSheet(dataUrl)
-    }
-    reader.readAsDataURL(file)
-  }, [handleUploadFromSheet])
-
   const handleAnalyze = useCallback(async () => {
     if (!imageDataUrl) {
       toast.error("📸 Сначала сфотографируйте продукты")
@@ -168,6 +152,22 @@ export default function РЕЦЕПТОРApp() {
       setIsAnalyzing(false)
     }
   }, [imageDataUrl])
+
+  const handleUploadFromSheet = useCallback((dataUrl: string) => {
+    setHasPhoto(true)
+    setImageDataUrl(dataUrl)
+    setIsUploadSheetOpen(false)
+    handleAnalyze()
+  }, [handleAnalyze])
+
+  const handleFileFromSheet = useCallback((file: File) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const dataUrl = e.target?.result as string
+      handleUploadFromSheet(dataUrl)
+    }
+    reader.readAsDataURL(file)
+  }, [handleUploadFromSheet])
 
   const handleLoadingComplete = useCallback(() => {
     setAppState("results")
