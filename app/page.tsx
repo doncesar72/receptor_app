@@ -113,12 +113,21 @@ export default function РЕЦЕПТОРApp() {
   }, [handleUploadFromSheet])
 
   const handleGallerySelect = useCallback(() => {
-    // Trigger file input for gallery only
+    // Для мобильных устройств используем специальный подход
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    
     const input = document.createElement('input')
     input.type = 'file'
     input.accept = 'image/*'
     input.multiple = false
-    // Важно: не используем capture attribute для галереи
+    
+    // Важно: для мобильных НЕ используем capture, чтобы открыть галерею
+    // На некоторых устройствах capture все равно открывает камеру
+    if (!isMobile) {
+      // На десктопе можно оставить capture="environment" для камеры
+      // но для галереи его не должно быть
+    }
+    
     input.onchange = (e) => {
       const file = (e.target as HTMLInputElement).files?.[0]
       if (file) {
@@ -130,6 +139,8 @@ export default function РЕЦЕПТОРApp() {
         reader.readAsDataURL(file)
       }
     }
+    
+    // Принудительно открываем галерею
     input.click()
   }, [handleUploadFromSheet])
 

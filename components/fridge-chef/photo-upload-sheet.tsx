@@ -71,7 +71,7 @@ export function PhotoUploadSheet({ isOpen, onClose, onCameraCapture, onGallerySe
               </div>
               <div className="text-center">
                 <p className="font-semibold text-foreground text-base">
-                  📷 Сделать фото
+                  Сделать фото
                 </p>
                 <p className="text-muted-foreground text-sm mt-1">
                   Использовать камеру
@@ -88,7 +88,7 @@ export function PhotoUploadSheet({ isOpen, onClose, onCameraCapture, onGallerySe
               </div>
               <div className="text-center">
                 <p className="font-semibold text-foreground text-base">
-                  🖼️ Выбрать из галереи
+                  Выбрать из галереи
                 </p>
                 <p className="text-muted-foreground text-sm mt-1">
                   Из сохраненных
