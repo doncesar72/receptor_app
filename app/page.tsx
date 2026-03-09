@@ -3,7 +3,6 @@
 import { useState, useCallback, useMemo, useEffect } from "react"
 import { Sparkles, Search } from "lucide-react"
 import { Header } from "@/components/fridge-chef/header"
-import { UploadZone } from "@/components/fridge-chef/upload-zone"
 import { LoadingScreen } from "@/components/fridge-chef/loading-screen"
 import { RecipeList } from "@/components/fridge-chef/recipe-list"
 import { RecipeDetail } from "@/components/fridge-chef/recipe-detail"
@@ -11,7 +10,6 @@ import { RecipeDetailPage } from "@/components/fridge-chef/recipe-detail-page"
 import { ProductManager } from "@/components/fridge-chef/product-manager"
 import { RecentRecipes } from "@/components/fridge-chef/recent-recipes"
 import { BottomNav } from "@/components/fridge-chef/bottom-nav"
-import { PhotoUploadSheet } from "@/components/fridge-chef/photo-upload-sheet"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
@@ -79,12 +77,6 @@ export default function РЕЦЕПТОРApp() {
       console.error("[РЕЦЕПТОРApp] Failed to save recentRecipes to localStorage:", error)
     }
   }, [recentRecipes])
-
-  const handleUpload = useCallback((dataUrl: string) => {
-    console.log("[РЕЦЕПТОРApp] Image uploaded from UploadZone, data URL length:", dataUrl?.length)
-    setHasPhoto(true)
-    setImageDataUrl(dataUrl)
-  }, [])
 
   const handleAnalyze = useCallback(async () => {
     if (!imageDataUrl) {
@@ -304,7 +296,40 @@ export default function РЕЦЕПТОРApp() {
               </section>
 
               {/* Upload zone */}
-              <UploadZone onUpload={handleUpload} />
+              <div 
+                onClick={() => document.getElementById('photo-input')?.click()}
+                className="flex flex-col items-center justify-center w-full h-48 rounded-2xl border-2 border-dashed border-muted-foreground/30 bg-muted/20 hover:border-muted-foreground/50 hover:bg-muted/30 transition-all duration-200 cursor-pointer"
+              >
+                <div className="flex flex-col items-center gap-3">
+                  <div className="size-16 rounded-full bg-muted/50 flex items-center justify-center">
+                    <Sparkles className="size-8 text-muted-foreground" />
+                  </div>
+                  <p className="text-sm text-muted-foreground text-center">
+                    Нажмите чтобы сфотографировать или загрузить фото
+                  </p>
+                </div>
+              </div>
+              
+              <input
+                type="file"
+                accept="image/*"
+                id="photo-input"
+                style={{ display: 'none' }}
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  if (file) {
+                    const reader = new FileReader()
+                    reader.onload = (ev) => {
+                      const dataUrl = ev.target?.result as string
+                      setHasPhoto(true)
+                      setImageDataUrl(dataUrl)
+                      setIsUploadSheetOpen(false)
+                      handleAnalyze()
+                    }
+                    reader.readAsDataURL(file)
+                  }
+                }}
+              />
 
               {/* Analyze button */}
               {hasPhoto && (
@@ -537,12 +562,6 @@ export default function РЕЦЕПТОРApp() {
       </div>
 
       <BottomNav active={activeTab} onChange={handleChangeTab} />
-
-      <PhotoUploadSheet
-        isOpen={isUploadSheetOpen}
-        onClose={() => setIsUploadSheetOpen(false)}
-        onFileSelect={handleFileFromSheet}
-      />
     </div>
   )
 }
