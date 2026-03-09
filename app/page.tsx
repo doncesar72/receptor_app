@@ -113,11 +113,12 @@ export default function РЕЦЕПТОРApp() {
   }, [handleUploadFromSheet])
 
   const handleGallerySelect = useCallback(() => {
-    // Trigger file input without camera (gallery only)
+    // Trigger file input for gallery only
     const input = document.createElement('input')
     input.type = 'file'
     input.accept = 'image/*'
-    // Убираем capture, чтобы открывалась галерея, а не камера
+    input.multiple = false
+    // Важно: не используем capture attribute для галереи
     input.onchange = (e) => {
       const file = (e.target as HTMLInputElement).files?.[0]
       if (file) {
