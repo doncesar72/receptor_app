@@ -111,7 +111,10 @@ export function Onboarding({ onComplete }: OnboardingProps) {
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
       {/* Прогресс бары сверху */}
-      <div className="absolute top-12 left-4 right-4 flex gap-1.5 z-10">
+      <div 
+        className="absolute left-4 right-4 flex gap-1.5 z-10 top-14"
+        style={{ paddingTop: 'env(safe-area-inset-top, 16px)' }}
+      >
         {slides.map((_, i) => (
           <div key={i} className="h-1 flex-1 rounded-full bg-white/30 overflow-hidden">
             <div 
@@ -131,30 +134,34 @@ export function Onboarding({ onComplete }: OnboardingProps) {
       <button 
         onClick={complete}
         className="absolute top-16 right-4 z-10 text-white/80 text-sm font-medium"
+        style={{ paddingTop: 'env(safe-area-inset-top, 16px)' }}
       >
         Пропустить
       </button>
 
       {/* Текст снизу */}
-      <div className="absolute bottom-0 left-0 right-0 p-8 z-10">
+      <div 
+        className="absolute left-0 right-0 p-6 z-10"
+        style={{ bottom: 'calc(env(safe-area-inset-bottom, 0px) + 80px)' }}
+      >
         <h2 className="text-3xl font-bold text-white mb-3">
           {slides[current].title}
         </h2>
-        <p className="text-white/80 text-lg mb-8 leading-relaxed">
+        <p className="text-white/80 text-lg mb-6 leading-relaxed">
           {slides[current].description}
         </p>
         
         {current < 2 ? (
           <button
             onClick={nextSlide}
-            className="w-full py-4 bg-white text-teal-600 font-bold text-lg rounded-2xl"
+            className="w-full py-4 bg-white text-teal-600 font-bold text-lg rounded-2xl shadow-lg"
           >
             Далее →
           </button>
         ) : (
           <button
             onClick={complete}
-            className="w-full py-4 bg-white text-teal-600 font-bold text-lg rounded-2xl"
+            className="w-full py-4 bg-white text-teal-600 font-bold text-lg rounded-2xl shadow-lg"
           >
             Начать 🚀
           </button>

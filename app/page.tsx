@@ -627,7 +627,7 @@ export default function РЕЦЕПТОРApp() {
         </main>
       </div>
 
-      <BottomNav active={activeTab} onChange={handleChangeTab} />
+      {onboardingDone && <BottomNav active={activeTab} onChange={handleChangeTab} />}
     </div>
   )
 }
