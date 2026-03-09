@@ -32,6 +32,7 @@ const slides = [
 export function Onboarding({ onComplete }: OnboardingProps) {
   const [current, setCurrent] = useState(0)
   const [isDone, setIsDone] = useState(false)
+  const [imagesLoaded, setImagesLoaded] = useState(false)
   const touchStartX = useRef(0)
   const timerRef = useRef<NodeJS.Timeout>()
 
@@ -45,17 +46,26 @@ export function Onboarding({ onComplete }: OnboardingProps) {
 
   // Preload all images
   useEffect(() => {
-    slides.forEach(slide => {
-      const img = new window.Image()
-      img.src = slide.image
-    })
+    const loadImages = async () => {
+      const promises = slides.map(slide => {
+        return new Promise((resolve) => {
+          const img = new window.Image()
+          img.src = slide.image
+          img.onload = resolve
+          img.onerror = resolve
+        })
+      })
+      await Promise.all(promises)
+      setImagesLoaded(true)
+    }
+    loadImages()
   }, [])
 
   // Auto-advance timer
   useEffect(() => {
     timerRef.current = setTimeout(() => {
       nextSlide()
-    }, 4000)
+    }, 6000)
 
     return () => {
       if (timerRef.current) {
@@ -107,6 +117,17 @@ export function Onboarding({ onComplete }: OnboardingProps) {
     return null
   }
 
+  if (!imagesLoaded) {
+    return (
+      <div className="fixed inset-0 z-50 bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center">
+        <div className="text-white text-center">
+          <div className="w-16 h-16 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-lg font-medium">Загрузка...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="fixed inset-0 z-50" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       {/* Фоновая картинка */}
@@ -136,7 +157,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                 i === current ? 'animate-progress' : 'w-0'
               }`}
               style={i === current ? {
-                animation: 'progress 4s linear forwards'
+                animation: 'progress 6s linear forwards'
               } : {}}
             />
           </div>
