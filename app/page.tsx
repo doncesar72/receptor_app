@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, useEffect } from "react"
 import { Sparkles, Search, X, ImageIcon, Camera, Upload } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { Header } from "@/components/fridge-chef/header"
+import { Onboarding } from "@/components/Onboarding"
 import { LoadingScreen } from "@/components/fridge-chef/loading-screen"
 import { RecipeList } from "@/components/fridge-chef/recipe-list"
 import { RecipeDetail } from "@/components/fridge-chef/recipe-detail"
@@ -27,6 +28,10 @@ interface AnalyzeResult {
 
 export default function РЕЦЕПТОРApp() {
   const router = useRouter()
+  const [onboardingDone, setOnboardingDone] = useState(() => {
+    if (typeof window === 'undefined') return true
+    return localStorage.getItem('onboarding_complete') === 'true'
+  })
   const [appState, setAppState] = useState<AppState>("upload")
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null)
   const [recognizedProducts, setRecognizedProducts] = useState<string[]>([])
@@ -283,6 +288,7 @@ export default function РЕЦЕПТОРApp() {
 
   return (
     <div className="min-h-dvh bg-background">
+      {!onboardingDone && <Onboarding onComplete={() => setOnboardingDone(true)} />}
       <div className="mx-auto max-w-md px-5 pb-24">
         <Header onProfileClick={() => router.push('/profile')} />
 
