@@ -111,10 +111,6 @@ export function ProductManager({ initialProducts, onProductsChange }: ProductMan
   }
 
   const addProduct = (product: string) => {
-    if (products.length >= 15) {
-      setError("Максимум 15 продуктов")
-      return
-    }
     if (!products.includes(product)) {
       setError(null)
       setProducts((prev) => {
@@ -128,10 +124,6 @@ export function ProductManager({ initialProducts, onProductsChange }: ProductMan
   const handleSearchSubmit = () => {
     const trimmed = searchValue.trim()
     if (!trimmed) return
-    if (products.length >= 15) {
-      setError("Максимум 15 продуктов")
-      return
-    }
     if (!products.includes(trimmed)) {
       setProducts((prev) => {
         const next = [...prev, trimmed]
