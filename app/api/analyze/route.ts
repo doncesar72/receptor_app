@@ -58,7 +58,17 @@ export async function POST(req: Request) {
       .replace(/```/g, '')
       .trim();
 
-    return Response.json({ result: cleaned });
+    try {
+      const parsed = JSON.parse(cleaned);
+      return Response.json(parsed);
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError);
+      console.error('Raw content:', cleaned);
+      return Response.json({ 
+        error: 'Failed to parse AI response',
+        rawContent: cleaned 
+      }, { status: 500 });
+    }
   } catch (error: any) {
     console.error('API Error:', error);
     return Response.json(
