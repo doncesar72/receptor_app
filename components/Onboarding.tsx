@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import Image from 'next/image'
 import { ChevronRight } from "lucide-react"
 
 interface OnboardingProps {
@@ -40,6 +41,14 @@ export function Onboarding({ onComplete }: OnboardingProps) {
     if (completed === 'true') {
       setIsDone(true)
     }
+  }, [])
+
+  // Preload all images
+  useEffect(() => {
+    slides.forEach(slide => {
+      const img = new window.Image()
+      img.src = slide.image
+    })
   }, [])
 
   // Auto-advance timer
@@ -101,10 +110,14 @@ export function Onboarding({ onComplete }: OnboardingProps) {
   return (
     <div className="fixed inset-0 z-50" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       {/* Фоновая картинка */}
-      <img 
+      <Image
         src={slides[current].image}
-        className="absolute inset-0 w-full h-full object-cover"
-        alt="Onboarding slide"
+        alt="Onboarding"
+        fill
+        priority
+        quality={75}
+        className="object-cover"
+        sizes="100vw"
       />
       
       {/* Тёмный градиент поверх картинки снизу */}
