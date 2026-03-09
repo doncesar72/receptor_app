@@ -7,20 +7,32 @@ import { cn } from "@/lib/utils"
 interface PhotoUploadSheetProps {
   isOpen: boolean
   onClose: () => void
-  onCameraCapture: () => void
-  onGallerySelect: () => void
+  onFileSelect: (file: File) => void
 }
 
-export function PhotoUploadSheet({ isOpen, onClose, onCameraCapture, onGallerySelect }: PhotoUploadSheetProps) {
-  const handleCameraClick = useCallback(() => {
-    onCameraCapture()
-    onClose()
-  }, [onCameraCapture, onClose])
+export function PhotoUploadSheet({ isOpen, onClose, onFileSelect }: PhotoUploadSheetProps) {
+  const handleCameraClick = () => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = 'image/*'
+    input.capture = 'environment'
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0]
+      if (file) onFileSelect(file)
+    }
+    input.click()
+  }
 
-  const handleGalleryClick = useCallback(() => {
-    onGallerySelect()
-    onClose()
-  }, [onGallerySelect, onClose])
+  const handleGalleryClick = () => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = 'image/*'
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0]
+      if (file) onFileSelect(file)
+    }
+    input.click()
+  }
 
   const handleBackdropClick = useCallback((e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {

@@ -92,56 +92,13 @@ export default function РЕЦЕПТОРApp() {
     setIsUploadSheetOpen(false)
   }, [])
 
-  const handleCameraCapture = useCallback(() => {
-    // Trigger file input with camera
-    const input = document.createElement('input')
-    input.type = 'file'
-    input.accept = 'image/*'
-    input.capture = 'environment'
-    input.onchange = (e) => {
-      const file = (e.target as HTMLInputElement).files?.[0]
-      if (file) {
-        const reader = new FileReader()
-        reader.onload = (e) => {
-          const dataUrl = e.target?.result as string
-          handleUploadFromSheet(dataUrl)
-        }
-        reader.readAsDataURL(file)
-      }
+  const handleFileFromSheet = useCallback((file: File) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const dataUrl = e.target?.result as string
+      handleUploadFromSheet(dataUrl)
     }
-    input.click()
-  }, [handleUploadFromSheet])
-
-  const handleGallerySelect = useCallback(() => {
-    // Для мобильных устройств используем специальный подход
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-    
-    const input = document.createElement('input')
-    input.type = 'file'
-    input.accept = 'image/*'
-    input.multiple = false
-    
-    // Важно: для мобильных НЕ используем capture, чтобы открыть галерею
-    // На некоторых устройствах capture все равно открывает камеру
-    if (!isMobile) {
-      // На десктопе можно оставить capture="environment" для камеры
-      // но для галереи его не должно быть
-    }
-    
-    input.onchange = (e) => {
-      const file = (e.target as HTMLInputElement).files?.[0]
-      if (file) {
-        const reader = new FileReader()
-        reader.onload = (e) => {
-          const dataUrl = e.target?.result as string
-          handleUploadFromSheet(dataUrl)
-        }
-        reader.readAsDataURL(file)
-      }
-    }
-    
-    // Принудительно открываем галерею
-    input.click()
+    reader.readAsDataURL(file)
   }, [handleUploadFromSheet])
 
   const handleAnalyze = useCallback(async () => {
@@ -583,8 +540,7 @@ export default function РЕЦЕПТОРApp() {
       <PhotoUploadSheet
         isOpen={isUploadSheetOpen}
         onClose={() => setIsUploadSheetOpen(false)}
-        onCameraCapture={handleCameraCapture}
-        onGallerySelect={handleGallerySelect}
+        onFileSelect={handleFileFromSheet}
       />
     </div>
   )
