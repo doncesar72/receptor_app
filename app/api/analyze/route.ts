@@ -62,7 +62,7 @@ export async function POST(req: Request) {
     });
 
     const content = response.choices[0].message.content || '';
-    console.log('API response:', content);
+    console.log('API response FULL:', JSON.stringify(content));
 
     const cleaned = content
       .replace(/```json/g, '')
@@ -77,8 +77,10 @@ export async function POST(req: Request) {
       console.error('Raw content:', cleaned);
       return Response.json({ 
         error: 'Failed to parse AI response',
-        rawContent: cleaned 
-      }, { status: 500 });
+        rawContent: cleaned,
+        recipes: [],
+        products: []
+      }, { status: 200 });
     }
   } catch (error: any) {
     console.error('API Error:', error);
