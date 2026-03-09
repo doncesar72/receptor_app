@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useCallback, useMemo, useEffect } from "react"
-import { Sparkles, Search, X } from "lucide-react"
+import { Sparkles, Search, X, ImageIcon, Camera, Upload } from "lucide-react"
 import { Header } from "@/components/fridge-chef/header"
 import { LoadingScreen } from "@/components/fridge-chef/loading-screen"
 import { RecipeList } from "@/components/fridge-chef/recipe-list"
@@ -299,15 +299,25 @@ export default function РЕЦЕПТОРApp() {
               {!hasPhoto ? (
               <div 
                 onClick={() => document.getElementById('photo-input')?.click()}
-                className="flex flex-col items-center justify-center w-full h-48 rounded-2xl border-2 border-dashed border-muted-foreground/30 bg-muted/20 hover:border-muted-foreground/50 hover:bg-muted/30 transition-all duration-200 cursor-pointer"
+                className="flex flex-col items-center justify-center w-full rounded-2xl border-2 border-dashed border-teal-300 bg-white py-10 px-4 cursor-pointer"
               >
-                <div className="flex flex-col items-center gap-3">
-                  <div className="size-16 rounded-full bg-muted/50 flex items-center justify-center">
-                    <Sparkles className="size-8 text-muted-foreground" />
+                <div className="relative mb-4">
+                  <div className="size-20 rounded-2xl bg-gray-100 flex items-center justify-center">
+                    <ImageIcon className="size-10 text-gray-400" />
                   </div>
-                  <p className="text-sm text-muted-foreground text-center">
-                    Нажмите чтобы сфотографировать или загрузить фото
-                  </p>
+                  <div className="absolute -bottom-2 -right-2 size-8 rounded-full bg-orange-500 flex items-center justify-center">
+                    <Camera className="size-4 text-white" />
+                  </div>
+                </div>
+                <p className="text-lg font-bold text-gray-800 text-center mb-1">
+                  Сфотографируйте продукты
+                </p>
+                <p className="text-sm text-gray-500 text-center mb-3">
+                  Перетащите фото или нажмите для загрузки
+                </p>
+                <div className="flex items-center gap-1 text-xs text-gray-400">
+                  <Upload className="size-3" />
+                  <span>JPG, PNG до 10 МБ</span>
                 </div>
               </div>
             ) : (
