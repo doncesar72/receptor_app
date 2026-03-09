@@ -85,6 +85,7 @@ export default function РЕЦЕПТОРApp() {
     }
 
     console.log("[РЕЦЕПТОРApp] Starting analysis, sending image to /api/analyze")
+    alert('Запрос отправляется! imageDataUrl length: ' + imageDataUrl.length)
     setAppState("loading")
     setIsAnalyzing(true)
 
@@ -100,6 +101,7 @@ export default function РЕЦЕПТОРApp() {
       })
 
       console.log("[РЕЦЕПТОРApp] /api/analyze response status:", response.status)
+      alert('Ответ получен! Status: ' + response.status)
 
       const json = await response.json()
       console.log("[РЕЦЕПТОРApp] /api/analyze raw JSON:", json)
