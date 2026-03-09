@@ -38,6 +38,32 @@ export function RecipeCard({ recipe, onSelect }: RecipeCardProps) {
       color: "bg-muted text-muted-foreground border-border/50",
     }
   const matchValue = recipe.matchPercent || recipe.match || 85
+
+  // Get goal badges
+  const getGoalBadges = () => {
+    const badges = []
+    const profileRaw = typeof window !== 'undefined' ? localStorage.getItem('user_profile') : null
+    const profile = profileRaw ? JSON.parse(profileRaw) : null
+
+    if (profile) {
+      if (profile.goal === 'gain' && recipe.calories && recipe.calories > 500) {
+        badges.push("💪 Для набора массы")
+      }
+      if (profile.goal === 'loss' && recipe.calories && recipe.calories < 400) {
+        badges.push("🏃 Для похудения")
+      }
+      if (profile.diet !== 'none') {
+        const dietLabels = {
+          halal: "☪️ Халяль",
+          vegetarian: "🥗 Вегетарианское",
+          vegan: "🌱 Веганское",
+          glutenfree: "🌾 Без глютена"
+        }
+        badges.push(dietLabels[profile.diet as keyof typeof dietLabels])
+      }
+    }
+    return badges
+  }
   const matchColor = getMatchColor(matchValue)
   const matchBg = getMatchBg(matchValue)
 
@@ -103,12 +129,28 @@ export function RecipeCard({ recipe, onSelect }: RecipeCardProps) {
                   <Flame className="size-3.5" />
                   <span>{recipe.calories} ккал</span>
                 </div>
+                {recipe.nutrition && (
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <span className="font-medium">{recipe.nutrition.protein}г</span>
+                    <span className="font-medium">{recipe.nutrition.fat}г</span>
+                    <span className="font-medium">{recipe.nutrition.carbs}г</span>
+                  </div>
+                )}
                 <Badge
                   variant="outline"
                   className={`text-[10px] px-2 py-0.5 ${difficulty.color}`}
                 >
                   {recipe.difficulty || difficulty.label}
                 </Badge>
+                {getGoalBadges().map((badge, index) => (
+                  <Badge
+                    key={index}
+                    variant="outline"
+                    className="text-[10px] px-2 py-0.5 bg-accent/15 text-accent border-accent/20"
+                  >
+                    {badge}
+                  </Badge>
+                ))}
               </div>
             </div>
 

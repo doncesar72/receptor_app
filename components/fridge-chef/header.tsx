@@ -2,7 +2,11 @@
 
 import { Refrigerator } from "lucide-react"
 
-export function Header() {
+interface HeaderProps {
+  onProfileClick?: () => void
+}
+
+export function Header({ onProfileClick }: HeaderProps) {
   return (
     <header className="flex items-center justify-between py-4 px-1">
       <div className="flex items-center gap-3">
@@ -18,9 +22,13 @@ export function Header() {
           </p>
         </div>
       </div>
-      <div className="size-9 rounded-full bg-muted flex items-center justify-center text-lg" role="img" aria-label="Аватар пользователя">
+      <button
+        onClick={onProfileClick}
+        className="size-9 rounded-full bg-muted flex items-center justify-center text-lg hover:bg-muted/80 transition-colors"
+        aria-label="Профиль"
+      >
         👨‍🍳
-      </div>
+      </button>
     </header>
   )
 }

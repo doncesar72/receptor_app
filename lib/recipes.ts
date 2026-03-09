@@ -4,7 +4,12 @@ export interface Recipe {
   emoji: string
   description: string
   time: number
-  calories: number
+  calories?: number
+  nutrition?: {
+    protein: number
+    fat: number
+    carbs: number
+  }
   servings: number
   difficulty: "easy" | "medium" | "hard"
   match: number

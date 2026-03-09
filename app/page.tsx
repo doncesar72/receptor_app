@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useMemo, useEffect } from "react"
 import { Sparkles, Search, X, ImageIcon, Camera, Upload } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { Header } from "@/components/fridge-chef/header"
 import { LoadingScreen } from "@/components/fridge-chef/loading-screen"
 import { RecipeList } from "@/components/fridge-chef/recipe-list"
@@ -25,6 +26,7 @@ interface AnalyzeResult {
 }
 
 export default function РЕЦЕПТОРApp() {
+  const router = useRouter()
   const [appState, setAppState] = useState<AppState>("upload")
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null)
   const [recognizedProducts, setRecognizedProducts] = useState<string[]>([])
@@ -89,13 +91,16 @@ export default function РЕЦЕПТОРApp() {
     setIsAnalyzing(true)
 
     try {
+      const profileRaw = localStorage.getItem('user_profile')
+      const profile = profileRaw ? JSON.parse(profileRaw) : null
+
       const response = await fetch("/api/analyze", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Cache-Control": "no-cache",
         },
-        body: JSON.stringify({ image: imageDataUrl }),
+        body: JSON.stringify({ image: imageDataUrl, profile }),
         cache: 'no-store'
       })
 
@@ -279,7 +284,7 @@ export default function РЕЦЕПТОРApp() {
   return (
     <div className="min-h-dvh bg-background">
       <div className="mx-auto max-w-md px-5 pb-24">
-        <Header />
+        <Header onProfileClick={() => router.push('/profile')} />
 
         <main className="flex flex-col gap-6 pt-2">
           {appState === "upload" && activeTab === "home" && (

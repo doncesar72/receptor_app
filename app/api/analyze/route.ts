@@ -16,7 +16,7 @@ export async function POST(req: Request) {
   })
 
   try {
-    const { image } = await req.json();
+    const { image, profile } = await req.json();
 
     if (!image) {
       return Response.json(
@@ -25,6 +25,17 @@ export async function POST(req: Request) {
       );
     }
 
+    const profilePrompt = profile ? `
+Персональные настройки пользователя (ОБЯЗАТЕЛЬНО учитывай):
+- Цель питания: ${profile.goal === 'loss' ? 'похудение' : profile.goal === 'gain' ? 'набор массы' : 'поддержание веса'}
+- Тип питания: ${profile.diet === 'halal' ? 'халяль (без свинины и алкоголя)' : profile.diet === 'vegetarian' ? 'вегетарианство (без мяса)' : profile.diet === 'vegan' ? 'веганство (без животных продуктов)' : profile.diet === 'glutenfree' ? 'без глютена' : 'обычное'}
+- Аллергии: ${profile.allergies.length > 0 ? profile.allergies.join(', ') : 'нет'}
+- Дневная норма калорий: ${profile.calories} ккал
+- Количество порций: ${profile.portions}
+Подбирай рецепты строго под эти параметры.
+Для каждого рецепта указывай примерные калории на порцию и БЖУ (белки/жиры/углеводы в граммах).
+` : ''
+
     const response = await openai.chat.completions.create({
       model: AI_CONFIG.model,
       temperature: AI_CONFIG.temperature,
@@ -32,7 +43,7 @@ export async function POST(req: Request) {
       messages: [
         { 
           role: "system", 
-          content: AI_CONFIG.prompts.analyzePhoto 
+          content: AI_CONFIG.prompts.analyzePhoto + profilePrompt
         },
         {
           role: "user",
