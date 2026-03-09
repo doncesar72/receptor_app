@@ -90,7 +90,8 @@ export default function РЕЦЕПТОРApp() {
     setHasPhoto(true)
     setImageDataUrl(dataUrl)
     setIsUploadSheetOpen(false)
-  }, [])
+    handleAnalyze()
+  }, [handleAnalyze])
 
   const handleFileFromSheet = useCallback((file: File) => {
     const reader = new FileReader()
