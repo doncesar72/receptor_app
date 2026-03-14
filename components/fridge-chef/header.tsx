@@ -9,7 +9,7 @@ export function Header({ onProfileClick }: HeaderProps) {
     <header 
       className="flex items-center justify-between px-1"
       style={{ 
-        paddingTop: 'calc(env(safe-area-inset-top, 0px) + 16px)',
+        paddingTop: 'max(60px, calc(env(safe-area-inset-top, 0px) + 16px))',
         paddingBottom: '16px'
       }}
     >
