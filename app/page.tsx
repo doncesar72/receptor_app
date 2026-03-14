@@ -129,9 +129,15 @@ export default function РЕЦЕПТОРApp() {
 
       if (parsed?.recipes && Array.isArray(parsed.recipes)) {
         console.log("[РЕЦЕПТОРApp] Setting new recipes, count:", parsed.recipes.length)
-        setRecipes(parsed.recipes)
+        // Маппинг полей из API в интерфейс Recipe
+        const mappedRecipes = parsed.recipes.map((recipe: any) => ({
+          ...recipe,
+          time: recipe.cookTime || recipe.time || 30, // Используем cookTime из API или fallback
+          name: recipe.name || recipe.title || "", // Используем name из API
+        }))
+        setRecipes(mappedRecipes)
         setRecentRecipes((prev) => {
-          const merged = [...parsed.recipes!, ...prev]
+          const merged = [...mappedRecipes, ...prev]
           const unique = merged.filter(
             (r, i, arr) => arr.findIndex((x) => x.id === r.id) === i
           )
