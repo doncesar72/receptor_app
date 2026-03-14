@@ -333,18 +333,11 @@ export default function РЕЦЕПТОРApp() {
               </div>
             ) : (
               <div className="relative w-full h-48 rounded-2xl overflow-hidden">
-                <div 
-                  className="w-full h-full bg-gradient-to-br from-teal-400 via-teal-500 to-emerald-600 flex items-center justify-center"
-                  onError={() => {
-                    setHasPhoto(false)
-                    setImageDataUrl('')
-                  }}
-                >
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                    <circle cx="12" cy="13" r="4"/>
-                  </svg>
-                </div>
+                <img 
+                  src={imageDataUrl || ''} 
+                  alt="Uploaded" 
+                  className="w-full h-full object-cover"
+                />
                 <button
                   onClick={() => {
                     setHasPhoto(false)
@@ -432,11 +425,7 @@ export default function РЕЦЕПТОРApp() {
                 </h3>
                 <div className="bg-card rounded-2xl border border-border/60 p-4 flex gap-4 items-start">
                   <div className="size-10 rounded-xl bg-secondary flex items-center justify-center text-xl flex-shrink-0">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M12 2v17M12 22a3 3 0 0 1-3-3v-1h6v1a3 3 0 0 1-3 3Z"/>
-                      <path d="M8.5 8.5a7.5 7.5 0 0 1 7 0"/>
-                      <path d="M6 6a10 10 0 0 1 12 0"/>
-                    </svg>
+                    <span role="img" aria-hidden="true">{"💡"}</span>
                   </div>
                   <div className="flex flex-col gap-1">
                     <p className="text-sm font-medium text-foreground">

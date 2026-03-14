@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import Image from 'next/image'
 import { ChevronRight } from "lucide-react"
 
 interface OnboardingProps {
@@ -9,16 +10,19 @@ interface OnboardingProps {
 
 const slides = [
   {
+    image: "/onboarding/slide1.png",
     bg: "from-teal-500/80 to-teal-700/80",
     title: "Сфотографируй продукты",
     description: "Открой холодильник и сделай фото. Мы распознаем всё что есть внутри"
   },
   {
+    image: "/onboarding/slide2.png",
     bg: "from-teal-500/60 to-emerald-700/60",
     title: "AI подберёт рецепты",
     description: "За секунды находим лучшие блюда именно из твоих продуктов"
   },
   {
+    image: "/onboarding/slide3.png",
     bg: "from-teal-600/70 to-teal-800/70",
     title: "Под твои цели",
     description: "Халяль, диета, набор массы — рецепты под твой образ жизни"
@@ -28,24 +32,39 @@ const slides = [
 export function Onboarding({ onComplete }: OnboardingProps) {
   const [current, setCurrent] = useState(0)
   const [isDone, setIsDone] = useState(false)
+  const [imagesLoaded, setImagesLoaded] = useState(false)
   const touchStartX = useRef(0)
   const timerRef = useRef<NodeJS.Timeout>()
 
+  // Check if onboarding already completed
   useEffect(() => {
-    const checkOnboarding = () => {
-      const completed = localStorage.getItem('onboarding-completed')
-      if (completed === 'true') {
-        setIsDone(true)
-        onComplete?.()
-      }
+    const completed = localStorage.getItem('onboarding_complete')
+    if (completed === 'true') {
+      setIsDone(true)
     }
-    checkOnboarding()
+  }, [])
+
+  // Preload all images
+  useEffect(() => {
+    const loadImages = async () => {
+      const promises = slides.map(slide => {
+        return new Promise((resolve) => {
+          const img = new window.Image()
+          img.src = slide.image
+          img.onload = resolve
+          img.onerror = resolve
+        })
+      })
+      await Promise.all(promises)
+      setImagesLoaded(true)
+    }
+    loadImages()
   }, [])
 
   // Auto-advance timer
   useEffect(() => {
     timerRef.current = setTimeout(() => {
-      handleNext()
+      nextSlide()
     }, 6000)
 
     return () => {
@@ -54,6 +73,26 @@ export function Onboarding({ onComplete }: OnboardingProps) {
       }
     }
   }, [current])
+
+  const nextSlide = () => {
+    if (current < 2) {
+      setCurrent(current + 1)
+    } else {
+      complete()
+    }
+  }
+
+  const prevSlide = () => {
+    if (current > 0) {
+      setCurrent(current - 1)
+    }
+  }
+
+  const complete = () => {
+    localStorage.setItem('onboarding_complete', 'true')
+    setIsDone(true)
+    onComplete?.()
+  }
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX
@@ -65,42 +104,41 @@ export function Onboarding({ onComplete }: OnboardingProps) {
 
     if (Math.abs(diff) > 50) {
       if (diff > 0) {
-        handleNext()
+        // Swipe left - next slide
+        nextSlide()
       } else {
-        handlePrev()
+        // Swipe right - previous slide
+        prevSlide()
       }
     }
-  }
-
-  const handleNext = () => {
-    if (current < slides.length - 1) {
-      setCurrent(current + 1)
-    } else {
-      handleComplete()
-    }
-  }
-
-  const handlePrev = () => {
-    if (current > 0) {
-      setCurrent(current - 1)
-    }
-  }
-
-  const handleComplete = () => {
-    localStorage.setItem('onboarding-completed', 'true')
-    setIsDone(true)
-    onComplete?.()
   }
 
   if (isDone) {
     return null
   }
 
+  if (!imagesLoaded) {
+    return (
+      <div className="fixed inset-0 z-50 bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center">
+        <div className="text-white text-center">
+          <div className="w-16 h-16 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-lg font-medium">Загрузка...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="fixed inset-0 z-50" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-      {/* Фоновый градиент */}
-      <div 
-        className={`absolute inset-0 bg-gradient-to-br ${slides[current].bg}`}
+      {/* Фоновая картинка */}
+      <Image
+        src={slides[current].image}
+        alt="Onboarding"
+        fill
+        priority
+        quality={75}
+        className="object-cover"
+        sizes="100vw"
       />
       
       {/* Тёмный градиент поверх картинки снизу */}

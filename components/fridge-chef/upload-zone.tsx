@@ -112,15 +112,12 @@ export function UploadZone({ onUpload }: UploadZoneProps) {
 
           {preview ? (
             <div className="relative w-full">
-              <div 
-                className="w-full h-48 rounded-xl bg-gradient-to-br from-teal-400 via-teal-500 to-emerald-600 flex items-center justify-center"
-                onError={() => setPreview(null)}
-              >
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                  <circle cx="12" cy="13" r="4"/>
-                </svg>
-              </div>
+              <img
+                src={preview}
+                alt="Загруженное фото продуктов"
+                className="w-full h-48 object-cover rounded-xl"
+                crossOrigin="anonymous"
+              />
               <div className="absolute inset-0 bg-foreground/5 rounded-xl flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                 <button
                   onClick={handleReplacePhoto}
