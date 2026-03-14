@@ -114,7 +114,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
+      <div className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b" style={{ paddingTop: 'max(60px, calc(env(safe-area-inset-top, 0px) + 16px))' }}>
         <div className="flex items-center justify-between p-4">
           <button
             onClick={() => router.back()}
