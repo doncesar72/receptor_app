@@ -15,7 +15,10 @@ export function Header({ onProfileClick }: HeaderProps) {
     >
       <div className="flex items-center gap-3">
         <div className="size-10 rounded-xl bg-primary flex items-center justify-center">
-          <span className="text-lg">❄</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary-foreground">
+            <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
+            <rect x="8" y="3" width="8" height="4" rx="1" ry="1"/>
+          </svg>
         </div>
         <div>
           <h1 className="text-base font-bold text-foreground tracking-tight font-mono">
@@ -28,10 +31,13 @@ export function Header({ onProfileClick }: HeaderProps) {
       </div>
       <button
         onClick={onProfileClick}
-        className="size-9 rounded-full bg-muted flex items-center justify-center text-lg hover:bg-muted/80 transition-colors"
+        className="size-9 rounded-full bg-muted flex items-center justify-center hover:bg-muted/80 transition-colors"
         aria-label="Профиль"
       >
-        �
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
       </button>
     </header>
   )

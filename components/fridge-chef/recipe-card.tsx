@@ -121,11 +121,16 @@ export function RecipeCard({ recipe, onSelect }: RecipeCardProps) {
               {/* Meta row */}
               <div className="flex items-center gap-2.5 flex-wrap pt-0.5">
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                  <span className="text-sm">⏱</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12,6 12,12 16,14"/>
+                  </svg>
                   <span>{timeDisplay}</span>
                 </div>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                  <span className="text-sm">🔥</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                  </svg>
                   <span>{recipe.calories} ккал</span>
                 </div>
                 {recipe.nutrition && (
@@ -156,7 +161,9 @@ export function RecipeCard({ recipe, onSelect }: RecipeCardProps) {
             {/* Match badge */}
             <div className="flex-shrink-0 self-start">
               <div className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold ${matchBg}`}>
-                <span className="text-sm">👨</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
                 {matchValue}%
               </div>
             </div>
