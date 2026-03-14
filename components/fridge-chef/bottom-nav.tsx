@@ -1,13 +1,12 @@
 "use client"
 
-import { Home, Search, BookOpen, Heart } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const navItems = [
-  { icon: Home, label: "Главная", id: "home" },
-  { icon: Search, label: "Поиск", id: "search" },
-  { icon: BookOpen, label: "Рецепты", id: "recipes" },
-  { icon: Heart, label: "Избранное", id: "favorites" },
+  { icon: "🏠", label: "Главная", id: "home" },
+  { icon: "🔍", label: "Поиск", id: "search" },
+  { icon: "📖", label: "Рецепты", id: "recipes" },
+  { icon: "❤️", label: "Избранное", id: "favorites" },
 ]
 
 interface BottomNavProps {
@@ -37,12 +36,14 @@ export function BottomNav({ active = "home", onChange }: BottomNavProps) {
               aria-current={isActive ? "page" : undefined}
               onClick={() => onChange?.(item.id)}
             >
-              <item.icon
+              <span 
                 className={cn(
-                  "size-5 transition-transform",
+                  "text-lg transition-transform",
                   isActive && "scale-110"
                 )}
-              />
+              >
+                {item.icon}
+              </span>
               <span className="text-[10px] font-medium">{item.label}</span>
               {isActive && (
                 <span className="absolute -top-0 size-1 rounded-full bg-accent" />

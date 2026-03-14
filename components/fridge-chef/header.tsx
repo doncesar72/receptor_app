@@ -1,7 +1,5 @@
 "use client"
 
-import { Refrigerator } from "lucide-react"
-
 interface HeaderProps {
   onProfileClick?: () => void
 }
@@ -11,10 +9,10 @@ export function Header({ onProfileClick }: HeaderProps) {
     <header className="flex items-center justify-between py-4 px-1">
       <div className="flex items-center gap-3">
         <div className="size-10 rounded-xl bg-primary flex items-center justify-center">
-          <Refrigerator className="size-5 text-primary-foreground" />
+          <span className="text-lg">🧊</span>
         </div>
         <div>
-          <h1 className="text-lg font-bold text-foreground tracking-tight font-mono">
+          <h1 className="text-base font-bold text-foreground tracking-tight font-mono">
             РЕЦЕПТОР
           </h1>
           <p className="text-[11px] text-muted-foreground -mt-0.5">

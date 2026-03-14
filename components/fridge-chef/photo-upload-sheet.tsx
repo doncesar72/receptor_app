@@ -1,7 +1,6 @@
 "use client"
 
 import { useCallback, useState } from "react"
-import { Camera, Image as ImageIcon, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface PhotoUploadSheetProps {
@@ -67,7 +66,7 @@ export function PhotoUploadSheet({ isOpen, onClose, onFileSelect }: PhotoUploadS
             className="size-8 rounded-full bg-muted flex items-center justify-center hover:bg-muted/80 transition-colors"
             aria-label="Закрыть"
           >
-            <X className="size-4 text-muted-foreground" />
+            <span className="text-lg">✕</span>
           </button>
         </div>
         
@@ -79,7 +78,7 @@ export function PhotoUploadSheet({ isOpen, onClose, onFileSelect }: PhotoUploadS
               className="flex flex-col items-center gap-3 p-6 rounded-2xl border-2 border-primary/20 bg-card hover:border-primary/40 hover:bg-primary/5 transition-all duration-200 btn-press"
             >
               <div className="size-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-                <Camera className="size-8 text-primary" />
+                <span className="text-2xl">📷</span>
               </div>
               <div className="text-center">
                 <p className="font-semibold text-foreground text-base">
@@ -96,7 +95,7 @@ export function PhotoUploadSheet({ isOpen, onClose, onFileSelect }: PhotoUploadS
               className="flex flex-col items-center gap-3 p-6 rounded-2xl border-2 border-accent/20 bg-card hover:border-accent/40 hover:bg-accent/5 transition-all duration-200 btn-press"
             >
               <div className="size-16 rounded-2xl bg-accent/10 flex items-center justify-center">
-                <ImageIcon className="size-8 text-accent" />
+                <span className="text-2xl">🖼️</span>
               </div>
               <div className="text-center">
                 <p className="font-semibold text-foreground text-base">

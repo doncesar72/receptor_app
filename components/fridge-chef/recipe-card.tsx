@@ -1,6 +1,5 @@
 "use client"
 
-import { Clock, ChefHat, Flame } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { RecipeImage } from "@/components/fridge-chef/recipe-image"
@@ -122,11 +121,11 @@ export function RecipeCard({ recipe, onSelect }: RecipeCardProps) {
               {/* Meta row */}
               <div className="flex items-center gap-2.5 flex-wrap pt-0.5">
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                  <Clock className="size-3.5" />
+                  <span className="text-sm">⏰</span>
                   <span>{timeDisplay}</span>
                 </div>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                  <Flame className="size-3.5" />
+                  <span className="text-sm">🔥</span>
                   <span>{recipe.calories} ккал</span>
                 </div>
                 {recipe.nutrition && (
@@ -157,7 +156,7 @@ export function RecipeCard({ recipe, onSelect }: RecipeCardProps) {
             {/* Match badge */}
             <div className="flex-shrink-0 self-start">
               <div className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold ${matchBg}`}>
-                <ChefHat className="size-3.5" />
+                <span className="text-sm">👨‍🍳</span>
                 {matchValue}%
               </div>
             </div>

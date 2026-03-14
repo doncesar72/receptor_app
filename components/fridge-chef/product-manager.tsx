@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { Plus, Search, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
@@ -185,7 +184,7 @@ export function ProductManager({ initialProducts, onProductsChange }: ProductMan
               className="inline-flex items-center justify-center size-5 rounded-full text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
               aria-label={`\u0423\u0434\u0430\u043B\u0438\u0442\u044C ${item}`}
             >
-              <X className="size-3" />
+              <span className="text-xs">✕</span>
             </button>
           </span>
         ))}
@@ -203,7 +202,7 @@ export function ProductManager({ initialProducts, onProductsChange }: ProductMan
           onClick={() => setIsSearchOpen(true)}
           className="w-full h-11 rounded-xl bg-accent text-accent-foreground hover:bg-accent/90 font-semibold text-sm shadow-md shadow-accent/15 transition-all duration-200 animate-in fade-in duration-200 btn-press"
         >
-          <Plus className="size-4" />
+          <span className="text-base">➕</span>
           {"\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u044B"}
         </Button>
       )}
@@ -226,7 +225,7 @@ export function ProductManager({ initialProducts, onProductsChange }: ProductMan
               className="absolute right-1.5 top-1/2 -translate-y-1/2 inline-flex items-center justify-center size-8 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
               aria-label={"\u041F\u043E\u0438\u0441\u043A"}
             >
-              <Search className="size-4" />
+              <span className="text-base">🔍</span>
             </button>
           </div>
 
