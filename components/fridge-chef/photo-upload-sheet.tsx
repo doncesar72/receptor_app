@@ -95,7 +95,7 @@ export function PhotoUploadSheet({ isOpen, onClose, onFileSelect }: PhotoUploadS
               className="flex flex-col items-center gap-3 p-6 rounded-2xl border-2 border-accent/20 bg-card hover:border-accent/40 hover:bg-accent/5 transition-all duration-200 btn-press"
             >
               <div className="size-16 rounded-2xl bg-accent/10 flex items-center justify-center">
-                <span className="text-2xl">🖼️</span>
+                <span className="text-2xl">🖼</span>
               </div>
               <div className="text-center">
                 <p className="font-semibold text-foreground text-base">

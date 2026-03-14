@@ -121,7 +121,7 @@ export function RecipeCard({ recipe, onSelect }: RecipeCardProps) {
               {/* Meta row */}
               <div className="flex items-center gap-2.5 flex-wrap pt-0.5">
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                  <span className="text-sm">⏰</span>
+                  <span className="text-sm">⏱</span>
                   <span>{timeDisplay}</span>
                 </div>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -156,7 +156,7 @@ export function RecipeCard({ recipe, onSelect }: RecipeCardProps) {
             {/* Match badge */}
             <div className="flex-shrink-0 self-start">
               <div className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold ${matchBg}`}>
-                <span className="text-sm">👨‍🍳</span>
+                <span className="text-sm">👨</span>
                 {matchValue}%
               </div>
             </div>

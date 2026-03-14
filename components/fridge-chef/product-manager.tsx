@@ -184,7 +184,7 @@ export function ProductManager({ initialProducts, onProductsChange }: ProductMan
               className="inline-flex items-center justify-center size-5 rounded-full text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
               aria-label={`\u0423\u0434\u0430\u043B\u0438\u0442\u044C ${item}`}
             >
-              <span className="text-xs">✕</span>
+              <span className="text-xs">×</span>
             </button>
           </span>
         ))}
@@ -202,7 +202,7 @@ export function ProductManager({ initialProducts, onProductsChange }: ProductMan
           onClick={() => setIsSearchOpen(true)}
           className="w-full h-11 rounded-xl bg-accent text-accent-foreground hover:bg-accent/90 font-semibold text-sm shadow-md shadow-accent/15 transition-all duration-200 animate-in fade-in duration-200 btn-press"
         >
-          <span className="text-base">➕</span>
+          <span className="text-base">+</span>
           {"\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u044B"}
         </Button>
       )}

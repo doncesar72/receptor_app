@@ -3,10 +3,10 @@
 import { cn } from "@/lib/utils"
 
 const navItems = [
-  { icon: "🏠", label: "Главная", id: "home" },
+  { icon: "⌂", label: "Главная", id: "home" },
   { icon: "🔍", label: "Поиск", id: "search" },
   { icon: "📖", label: "Рецепты", id: "recipes" },
-  { icon: "❤️", label: "Избранное", id: "favorites" },
+  { icon: "♥", label: "Избранное", id: "favorites" },
 ]
 
 interface BottomNavProps {
