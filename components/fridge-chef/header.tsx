@@ -16,7 +16,7 @@ export function Header({ onProfileClick }: HeaderProps) {
       <div className="flex items-center gap-3">
         <div className="size-10 rounded-xl bg-primary flex items-center justify-center">
           <img 
-            src="/header-icon.svg" 
+            src="/logo.png" 
             alt="РЕЦЕПТОР" 
             className="w-full h-full"
           />
